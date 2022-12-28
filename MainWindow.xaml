@@ -1,0 +1,223 @@
+﻿<Window x:Class="ToDo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:local="clr-namespace:ToDo" xmlns:viewmodel="clr-namespace:ToDo.MVVM.ViewModel" xmlns:view="clr-namespace:ToDo.MVVM.View"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="475" Width="975"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip"
+        MinHeight="350"
+        MinWidth="500">
+
+    <Window.DataContext>
+        <viewmodel:MainViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodel:ToDoViewModel}">
+            <view:ToDoView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:InProgressViewModel}">
+            <view:InProgressView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodel:DoneViewModel}">
+            <view:DoneView/>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <!--Main Element-->
+    <Border CornerRadius="10"
+            BorderThickness="1">
+        <!--Border Brush-->
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1">
+                <GradientStop Color="{StaticResource blue1}" Offset="0"/>
+                <GradientStop Color="{StaticResource blue2}" Offset="0.1"/>
+                <GradientStop Color="{StaticResource blue3}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+
+        <Grid>
+            <!--Sizing-->
+            <Grid.ColumnDefinitions>
+                <!--Navigation Menu-->
+                <ColumnDefinition Width="187.5"/>
+                <!---Content section-->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!--NavigaitonMenu-->
+            <Border CornerRadius="10, 0, 0 10"
+                    Grid.Column="0">
+                
+                <!--Border Background-->
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
+                        <GradientStop Color="{StaticResource blue1}" Offset="0"/>
+                        <GradientStop Color="{StaticResource blue2}" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <StackPanel>
+
+                    <!--Logo-->
+                    <StackPanel Orientation="Horizontal"
+                                Height="26.25"
+                                Margin="10.5, 18.5, 0, 30">
+                        <Image Source="/Icons/DarkTLogo.png"
+                               Height="22.5"/>
+
+                        <TextBlock Text="To-Do"
+                                   Foreground="{StaticResource titleColor1}"
+                                   FontSize="20"
+                                   FontFamily="Montserrat"
+                                   FontWeight="Medium"
+                                   VerticalAlignment="Center"
+                                   Margin="7.5, 1.2, 0, 1.2"/>
+                    </StackPanel>
+
+                    <!--#region Menu Buttons-->
+                    <RadioButton Style="{StaticResource menuButton}"
+                                 Tag="{StaticResource color1}"
+                                 Command="{Binding ShowToDoViewCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="DotCircle" Style="{StaticResource menuButtonIcon}" Foreground="{StaticResource titleColor1}"/>
+                            <TextBlock Text="To-Do" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton Style="{StaticResource menuButton}"
+                                 Tag="{StaticResource color2}"
+                                 Command="{Binding ShowInProgressViewCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="DotCircle" Style="{StaticResource menuButtonIcon}" Foreground="{StaticResource titleColor1}"/>
+                            <TextBlock Text="In Progress" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton Style="{StaticResource menuButton}"
+                                 Tag="{StaticResource color3}"
+                                 Command="{Binding ShowDoneViewCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="DotCircle" Style="{StaticResource menuButtonIcon}" Foreground="{StaticResource titleColor1}"/>
+                            <TextBlock Text="Done" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <!--#endregion-->
+
+                    <!--
+                    <RadioButton Style="{StaticResource menuButton}"
+                                 Tag="{StaticResource color1}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="DotCircle" Style="{StaticResource menuButtonIcon}" Foreground="{StaticResource titleColor1}"/>
+                            <TextBlock Text="Statistics" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>-->
+
+
+                </StackPanel>
+            </Border>
+            
+            
+            <!--MainSeciton-->
+            <Border CornerRadius="0, 10, 10 0"
+                    Grid.Column="1">
+
+                <!--Border Background-->
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
+                        <GradientStop Color="{StaticResource blue3}" Offset="0"/>
+                        <GradientStop Color="{StaticResource blue4}" Offset="0.5"/>
+                        <GradientStop Color="{StaticResource blue5}" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <!--Control Bar-->
+                        <RowDefinition Height="25"/>
+                        <!--Header / Caption-->
+                        <RowDefinition Height="25"/>
+                        
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!--Control Bar-->
+                    <StackPanel x:Name="controlBar"
+                                Grid.Row="0"
+                                Orientation="Horizontal"
+                                FlowDirection="RightToLeft"
+                                Background="Transparent"
+                                Margin="0 0 5 0"
+                                MouseLeftButtonDown="controlBar_MouseLeftButtonDown"
+                                MouseEnter="controlBar_MouseEnter">
+                        
+                        <Button x:Name="CloseButton"
+                                Style="{StaticResource controlButton}"
+                                Tag="{StaticResource color2}"
+                                Click="CloseButton_Click">
+                            <fa:IconImage Icon="XMark" Style="{StaticResource controlButtonIcon}"/>
+                        </Button>
+
+                        <Button x:Name="MaximizeButton"
+                                Style="{StaticResource controlButton}"
+                                Tag="{StaticResource color2}"
+                                Click="MaximizeButton_Click">
+                            <fa:IconImage Icon="WindowMaximize" Style="{StaticResource controlButtonIcon}"/>
+                        </Button>
+
+                        <Button x:Name="MinimizeButton"
+                                Style="{StaticResource controlButton}"
+                                Tag="{StaticResource color2}"
+                                Click="MinimizeButton_Click">
+                            <fa:IconImage Icon="WindowMinimize" Width="11" Style="{StaticResource controlButtonIcon}"/>
+                        </Button>
+                    </StackPanel>
+
+                    <!--Header / Caption-->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Caption-->
+                        <StackPanel Grid.Column="0"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center">
+                            <fa:IconImage Icon="DotCircle"
+                                          Height="20"
+                                          Width="20"
+                                          Foreground="{StaticResource titleColor1}"
+                                          Margin="35 0 10 0"/>
+                            
+                            <TextBlock Text="{Binding Caption}"
+                                       Foreground="{StaticResource titleColor2}"
+                                       FontSize="16"
+                                       FontFamily="Montserrat"
+                                       FontWeight="Medium"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                    
+                    <!---Content section / Child views-->
+                    <ContentControl Content="{Binding CurrentChildView}"
+                                    Grid.Row="2"
+                                    Margin="25"/>
+
+                </Grid>
+            </Border>
+
+        </Grid>
+        
+    </Border>    
+    
+</Window>
